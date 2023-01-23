@@ -27,3 +27,4 @@ export const pinJSONToIPFS = async(JSONBody) => {
            
         });
 };
+

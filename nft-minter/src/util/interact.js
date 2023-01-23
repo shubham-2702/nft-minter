@@ -1,11 +1,13 @@
 import { pinJSONToIPFS } from "./pinata.js";
+import detectEthereumProvider from "@metamask/detect-provider";
+import Web3 from "web3";
 require("dotenv").config();
 const alchemyKey = process.env.REACT_APP_ALCHEMY_KEY;
 const contractABI = require("../contract-abi.json");
-const contractAddress = "0x4C4a07F737Bf57F6632B6CAB089B78f62385aCaE";
-const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
-const web3 = createAlchemyWeb3(alchemyKey);
+const contractAddress = "0xFf0daA3b3f25eD2a51BD35881d805AA76aA7b830";
 
+let web3;
+let provider;
 export const connectWallet = async () => {
   if (window.ethereum) {
     try {
@@ -43,6 +45,24 @@ export const connectWallet = async () => {
 };
 
 export const getCurrentWalletConnected = async () => {
+
+  const loadProvider = async () => {
+    provider = await detectEthereumProvider();
+   
+    if (provider) {
+      provider.request({method: "eth_requestAccounts"});
+    } else {
+      console.error("Please install MetaMask!");
+    }
+    if (typeof web3 !== 'undefined') {
+      web3 = new Web3(web3.currentProvider);
+  } else {
+      // set the provider you want from Web3.providers
+      web3 = new Web3(provider);
+  }
+}
+
+  loadProvider();
   if (window.ethereum) {
     try {
       const addressArray = await window.ethereum.request({
@@ -88,8 +108,8 @@ async function loadContract() {
   return new web3.eth.Contract(contractABI, contractAddress);
 }
 
-export const mintNFT = async (url, name, description) => {
-  if (url.trim() == "" || name.trim() == "" || description.trim() == "") {
+export const mintNFT = async (url, name, description, address) => {
+  if (url.trim() == "" || name.trim() == "" || description.trim() == "" || address.trim() == "") {
     return {
       success: false,
       status: "❗Please make sure all fields are completed before minting.",
@@ -101,6 +121,7 @@ export const mintNFT = async (url, name, description) => {
   metadata.name = name;
   metadata.image = url;
   metadata.description = description;
+  metadata.address = address;
 
   const pinataResponse = await pinJSONToIPFS(metadata);
   if (!pinataResponse.success) {
@@ -110,7 +131,7 @@ export const mintNFT = async (url, name, description) => {
     };
   }
   const tokenURI = pinataResponse.pinataUrl;
-
+  
   window.contract = await new web3.eth.Contract(contractABI, contractAddress);
 
   const transactionParameters = {
@@ -128,9 +149,9 @@ export const mintNFT = async (url, name, description) => {
     });
     return {
       success: true,
+      _tokenURI: tokenURI,
       status:
-        "✅ Check out your transaction on Etherscan: https://ropsten.etherscan.io/tx/" +
-        txHash,
+        "✅ Check out your transaction on Gaurascan: https://testnet-explorer.gaurascan.com/tx/"+txHash+"/token-transfers",
     };
   } catch (error) {
     return {
