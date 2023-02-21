@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import {
   connectWallet,
+  createAddressERC721,
+  startDutchAuction,
   getCurrentWalletConnected,
   mintNFT,
+  buyMarketItem
 } from "./util/interact.js";
 const axios = require('axios');
 const key = process.env.REACT_APP_PINATA_KEY;
@@ -17,6 +20,11 @@ const Minter = (props) => {
   const [description, setDescription] = useState("");
   const [url, setURL] = useState("");
   const [tokenURI,setTokenURI] = useState("");
+  const [collectionName, setCollectionName] = useState("");
+  const [collectionSymbol, setCollectionSymbol] = useState("");
+  const [reciepientAddress,setRecipientAddress] = useState(null);
+  const [royaltyFee,setRoyaltyFee] = useState(0);
+  const [nftPrice,setNFTPrice] = useState(0);
 
   useEffect(async () => {
     const { address, status } = await getCurrentWalletConnected();
@@ -96,16 +104,29 @@ const Minter = (props) => {
     console.log(fileImg);
   }
   const onMintPressed = async () => {
-    const { success, status, _tokenURI } = await mintNFT(url, name, description,address);
-    setStatus(status);
-    setTokenURI(_tokenURI);
-    if (success) {
-      setName("");
-      setDescription("");
-      //setURL("");
-      setAddress(null);
-    }
+    await mintNFT(url, name, description,address);
+    // setStatus(status);
+    // setTokenURI(_tokenURI);
+    // if (success) {
+    //   setName("");
+    //   setDescription("");
+    //   //setURL("");
+    //   setAddress(null);
+    // }
   };
+
+  const onCreatePressed = async() => {
+    await createAddressERC721(collectionName,collectionSymbol,reciepientAddress,royaltyFee,0,nftPrice);
+  }
+
+  const onAuctionStart = async() =>{
+
+    await startDutchAuction();
+  }
+
+  const onBuyMarketItem = async() => {
+    await buyMarketItem();
+  }
 
   return (
     <div className="Minter">
@@ -167,6 +188,58 @@ const Minter = (props) => {
       <p id="tokenURI" style={{ color: "green"}}>
           "Token URI: " {tokenURI}
       </p>
+      </div>
+
+      <div>
+      <h3>"------------------------------------------------------"</h3>
+      <form>
+       
+        <label>
+          {url}
+        </label>
+        <h2>🤔 Name: </h2>
+        <input
+          type="text"
+          placeholder="e.g. My first NFT!"
+          onChange={(event) => setCollectionName(event.target.value)}
+        />
+        <h2>✍️ Symbol: </h2>
+        <input
+          type="text"
+          placeholder="e.g. Even cooler than cryptokitties ;)"
+          onChange={(event) => setCollectionSymbol(event.target.value)}
+        />
+        <h2>🏠 Reciepient Address: </h2>
+        <input
+          type="text"
+          placeholder=" e.g. 0x000..."
+          onChange={(event) => setRecipientAddress(event.target.value)}
+          required
+        />
+        <h2> Royalty Fee: </h2>
+        <input
+          type="number"
+          placeholder=" e.g. 0"
+          onChange={(event) => setRoyaltyFee(event.target.value)}
+          required
+        />
+        <h2> NFT Price: </h2>
+        <input
+          type="number"
+          placeholder=" e.g. 0"
+          onChange={(event) => setNFTPrice(event.target.value)}
+          required
+        />
+      </form>
+      <button id="createNFT" onClick={onCreatePressed}>
+        Create NFT
+      </button>
+      <button id="startAuction" onClick={onAuctionStart}>
+          Start Auction      
+      </button>
+      <button id="buyMarketItem" onClick={onBuyMarketItem}>
+          Buy Market Item      
+      </button>
       </div>
     </div>
   );

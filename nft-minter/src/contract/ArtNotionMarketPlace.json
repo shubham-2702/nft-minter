@@ -1,0 +1,1092 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_platformfee",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_feerecipient",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "itemId",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "nftaddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "buyer",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"name": "BoughtMarketItem",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "itemId",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "nftaddress",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "sold",
+				"type": "bool"
+			}
+		],
+		"name": "MarketItemCreated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "buyer",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "PlatformFeePaid",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "buyer",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "RoyaltyFeePaid",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "newlistingprice",
+				"type": "uint256"
+			}
+		],
+		"name": "UpdatedListingPrice",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "newplatformFee",
+				"type": "uint256"
+			}
+		],
+		"name": "UpdatedPlatformFee",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "nftcontract",
+				"type": "address"
+			}
+		],
+		"name": "createdNFTAddress",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_currentPrice",
+				"type": "uint256"
+			}
+		],
+		"name": "dutchAuctionCurrentPrice",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_winner",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_winningBid",
+				"type": "uint256"
+			}
+		],
+		"name": "dutchAuctionEnd",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_seller",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_nftAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_nftId",
+				"type": "uint256"
+			}
+		],
+		"name": "dutchAuctionStarted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_currentHighestBidder",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_currentHighestBid",
+				"type": "uint256"
+			}
+		],
+		"name": "englishAuctionBidSuccess",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_winner",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_winningBid",
+				"type": "uint256"
+			}
+		],
+		"name": "englishAuctionEnd",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_seller",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_nftAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_nftId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_startingPrice",
+				"type": "uint256"
+			}
+		],
+		"name": "englishAuctionStarted",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "AllDutchBids",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "bidId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "nftAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "nftId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startingPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startAt",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "endsAt",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "minimumPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "discountRate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "isCompleted",
+				"type": "bool"
+			},
+			{
+				"internalType": "address payable",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "winner",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "AllEnglishBids",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "bidId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "nftAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "nftId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startingPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startAt",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "endAt",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "isCompleted",
+				"type": "bool"
+			},
+			{
+				"internalType": "address payable",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "highestBidder",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "highestBid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "winner",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			}
+		],
+		"name": "EndDutchAuction",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "winner",
+				"type": "address"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "Listeditemsvalidator",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "amountBid",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			}
+		],
+		"name": "bidEnglishAuction",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_nftaddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_itemId",
+				"type": "uint256"
+			}
+		],
+		"name": "buyMarketItem",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_price",
+				"type": "uint256"
+			}
+		],
+		"name": "calculatePlatformFee",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_nftaddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_price",
+				"type": "uint256"
+			}
+		],
+		"name": "createMarketItem",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			}
+		],
+		"name": "endEnglishAuction",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			}
+		],
+		"name": "getDutchPrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			}
+		],
+		"name": "getHighestBid",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_currentHighestBid",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getItemsCreated",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "itemId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "nftaddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address payable",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address payable",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum ArtNotionMarketplace.State",
+						"name": "status",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct ArtNotionMarketplace.MarketItem[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getListingPrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMarketItems",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "itemId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "nftaddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address payable",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address payable",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum ArtNotionMarketplace.State",
+						"name": "status",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct ArtNotionMarketplace.MarketItem[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMyNFTs",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "itemId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "nftaddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address payable",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address payable",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum ArtNotionMarketplace.State",
+						"name": "status",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct ArtNotionMarketplace.MarketItem[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPlatformFee",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_itemId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_nftaddress",
+				"type": "address"
+			}
+		],
+		"name": "getTotalFee",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			}
+		],
+		"name": "isDutchAuctionCompleted",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "marketitemslist",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "itemId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "nftaddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"internalType": "address payable",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum ArtNotionMarketplace.State",
+				"name": "status",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nft",
+		"outputs": [
+			{
+				"internalType": "contract IERC721",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_listingprice",
+				"type": "uint256"
+			}
+		],
+		"name": "setListingPrice",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_platformfee",
+				"type": "uint256"
+			}
+		],
+		"name": "setPlatformFee",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_startingPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_minimumPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_nftAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_nftId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_discountRate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_creator",
+				"type": "address"
+			}
+		],
+		"name": "startDutchAuction",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_nftAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_nftId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startingBid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_duration",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_creator",
+				"type": "address"
+			}
+		],
+		"name": "startEnglishAuction",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_bidId",
+				"type": "uint256"
+			}
+		],
+		"name": "withDrawBidValue",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

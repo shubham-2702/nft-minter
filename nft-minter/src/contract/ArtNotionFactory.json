@@ -1,0 +1,92 @@
+[
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "nftcontract",
+				"type": "address"
+			}
+		],
+		"name": "createdNFTAddress",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_symbol",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_royaltyfee",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_recepient",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_choice",
+				"type": "uint256"
+			}
+		],
+		"name": "createNFT",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "nft721address",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMyNFTS",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_nftaddress",
+				"type": "address"
+			}
+		],
+		"name": "isArtNotionNFT",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
